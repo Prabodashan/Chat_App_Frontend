@@ -1,7 +1,19 @@
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+
 function App() {
   return (
-    <div>
-      <h1>Welcome</h1>
+    <div className="dark">
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/register" element={<Register />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
