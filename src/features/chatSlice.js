@@ -30,6 +30,28 @@ export const getConversations = createAsyncThunk(
   }
 );
 
+export const open_create_conversation = createAsyncThunk(
+  "conervsation/open_create",
+  async (values, { rejectWithValue }) => {
+    const { token, receiver_id } = values;
+    const isGroup = false;
+    try {
+      const { data } = await axios.post(
+        CONVERSATION_ENDPOINT,
+        { receiver_id, isGroup },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.error.message);
+    }
+  }
+);
+
 export const getConversationMessages = createAsyncThunk(
   "conervsation/messages",
   async (values, { rejectWithValue }) => {
@@ -47,14 +69,18 @@ export const getConversationMessages = createAsyncThunk(
   }
 );
 
-export const open_create_conversation = createAsyncThunk(
-  "conervsation/open_create",
+export const sendMessage = createAsyncThunk(
+  "message/send",
   async (values, { rejectWithValue }) => {
-    const { token, receiver_id, isGroup } = values;
+    const { token, message, convo_id, files } = values;
     try {
       const { data } = await axios.post(
-        CONVERSATION_ENDPOINT,
-        { receiver_id, isGroup },
+        MESSAGE_ENDPOINT,
+        {
+          message,
+          convo_id,
+          files,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -109,6 +135,27 @@ export const chatSlice = createSlice({
         state.messages = action.payload;
       })
       .addCase(getConversationMessages.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(sendMessage.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(sendMessage.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.messages = [...state.messages, action.payload];
+        // let conversation = {
+        //   ...action.payload.conversation,
+        //   latestMessage: action.payload,
+        // };
+        // let newConvos = [...state.conversations].filter(
+        //   (c) => c._id !== conversation._id
+        // );
+        // newConvos.unshift(conversation);
+        // state.conversations = newConvos;
+        // state.files = [];
+      })
+      .addCase(sendMessage.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
       });
