@@ -1,9 +1,7 @@
-function Input({ message, setMessage }) {
+function Input({ message, setMessage, textRef }) {
   const onChangeHandler = (e) => {
     setMessage(e.target.value);
   };
-
-  console.log("message", message);
 
   return (
     <div className="w-full">
@@ -13,6 +11,7 @@ function Input({ message, setMessage }) {
         placeholder="Type a message"
         value={message}
         onChange={onChangeHandler}
+        ref={textRef}
       />
     </div>
   );

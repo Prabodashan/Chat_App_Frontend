@@ -16,8 +16,6 @@ function Conversation({ convo }) {
     token,
   };
 
-  console.log(values);
-
   const openConversation = async () => {
     let newConvo = await dispatch(open_create_conversation(values));
   };
