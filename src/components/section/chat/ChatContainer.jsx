@@ -5,6 +5,7 @@ import { getConversationMessages } from "../../../features/chatSlice";
 
 import ChatHeader from "./header/ChatHeader";
 import ChatMessages from "./messages/ChatMessages";
+import { ChatActions } from "./actions";
 
 export default function ChatContainer() {
   const dispatch = useDispatch();
@@ -28,6 +29,8 @@ export default function ChatContainer() {
         <ChatHeader />
 
         <ChatMessages />
+
+        <ChatActions />
       </div>
     </div>
   );

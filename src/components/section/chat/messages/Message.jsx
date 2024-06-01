@@ -1,5 +1,5 @@
 import moment from "moment";
-import TraingleIcon from "../../../svg/triangle";
+import TraingleIcon from "../../../../svg/triangle";
 
 export default function Message({ message, me }) {
   return (

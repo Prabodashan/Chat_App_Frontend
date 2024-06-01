@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import Message from "../Message";
+import Message from "./Message";
 
 export default function ChatMessages() {
   const { messages } = useSelector((state) => state.chat);
