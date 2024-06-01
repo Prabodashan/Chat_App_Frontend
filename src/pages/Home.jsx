@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getConversations } from "../features/chatSlice";
 
 import { Sidebar } from "../components/section/sidebar";
-import { EmptyChatContainer } from "../components/section/chat/";
+import { ChatContainer, EmptyChatContainer } from "../components/section/chat/";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ const Home = () => {
         <div className="container h-screen flex">
           {/*Sidebar*/}
           <Sidebar />
-          {activeConversation._id ? "home" : <EmptyChatContainer />}
+          {activeConversation._id ? <ChatContainer /> : <EmptyChatContainer />}
         </div>
       </div>
     </>

@@ -5,6 +5,7 @@ function Contact({ contact }) {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { token } = user;
+  console.log(contact._id);
   const values = {
     receiver_id: contact._id,
     token,

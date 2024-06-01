@@ -1,2 +1,3 @@
 import EmptyChatContainer from "./welcome/EmptyChatContainer";
-export { EmptyChatContainer };
+import ChatContainer from "./ChatContainer";
+export { EmptyChatContainer, ChatContainer };
