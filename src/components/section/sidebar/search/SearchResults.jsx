@@ -13,7 +13,11 @@ export default function SearchResults({ searchResults, setSearchResults }) {
         <ul>
           {searchResults &&
             searchResults.map((user) => (
-              <Contact key={user._id} contact={user} />
+              <Contact
+                key={user._id}
+                contact={user}
+                setSearchResults={setSearchResults}
+              />
             ))}
         </ul>
       </div>
