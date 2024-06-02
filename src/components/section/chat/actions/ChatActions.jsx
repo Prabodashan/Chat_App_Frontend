@@ -17,6 +17,9 @@ function ChatActions() {
   const { user } = useSelector((state) => state.user);
   const { token } = user;
 
+  const [showPicker, setShowPicker] = useState(false);
+  const [showAttachments, setShowAttachments] = useState(false);
+
   const [message, setMessage] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -49,8 +52,15 @@ function ChatActions() {
             message={message}
             setMessage={setMessage}
             textRef={textRef}
+            showPicker={showPicker}
+            setShowPicker={setShowPicker}
+            setShowAttachments={setShowAttachments}
           />
-          <Attachments />
+          <Attachments
+            showAttachments={showAttachments}
+            setShowAttachments={setShowAttachments}
+            setShowPicker={setShowPicker}
+          />
         </ul>
         <Input message={message} setMessage={setMessage} textRef={textRef} />
         {/*Send button*/}
