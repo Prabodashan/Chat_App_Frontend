@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getConversations } from "../features/chatSlice";
+import {
+  getConversations,
+  updateMessagesAndConversations,
+} from "../features/chatSlice";
 
 import SocketContext from "../context/SocketContext";
 
@@ -9,11 +12,14 @@ import { Sidebar } from "../components/section/sidebar";
 import { ChatContainer, EmptyChatContainer } from "../components/section/chat/";
 
 const Home = ({ socket }) => {
-  console.log(socket);
-
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
+
+  //join user into the socket io
+  useEffect(() => {
+    socket.emit("join", user._id);
+  }, [user]);
 
   //get Conversations
   useEffect(() => {
@@ -21,6 +27,13 @@ const Home = ({ socket }) => {
       dispatch(getConversations(user.token));
     }
   }, [user]);
+
+  useEffect(() => {
+    //lsitening to receiving a message
+    socket.on("receive message", (message) => {
+      dispatch(updateMessagesAndConversations(message));
+    });
+  }, []);
 
   return (
     <>

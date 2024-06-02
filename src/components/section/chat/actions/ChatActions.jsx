@@ -7,11 +7,13 @@ import { SendIcon } from "../../../../svg";
 
 import { sendMessage } from "../../../../features/chatSlice";
 
+import SocketContext from "./../../../../context/SocketContext";
+
 import { Attachments } from "./attachments";
 import EmojiPickerApp from "./EmojiPickerApp";
 import Input from "./Input";
 
-function ChatActions() {
+function ChatActions({ socket }) {
   const dispatch = useDispatch();
   const { activeConversation, status } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.user);
@@ -31,10 +33,12 @@ function ChatActions() {
     files: [],
     token,
   };
+
   const sendMessageHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     let newMsg = await dispatch(sendMessage(values));
+    socket.emit("send message", newMsg.payload);
     setMessage("");
     setLoading(false);
   };
@@ -76,4 +80,9 @@ function ChatActions() {
   );
 }
 
-export default ChatActions;
+const ChatActionsWithSocket = (props) => (
+  <SocketContext.Consumer>
+    {(socket) => <ChatActions {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+export default ChatActionsWithSocket;

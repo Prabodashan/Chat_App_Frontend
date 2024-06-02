@@ -1,11 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import { open_create_conversation } from "../../../../features/chatSlice";
-import { getConversationId } from "../../../../utils/chat";
+
+import SocketContext from "../../../../context/SocketContext";
+
+import {
+  getConversationId,
+  getConversationName,
+  getConversationPicture,
+} from "../../../../utils/chat";
 import { dateHandler } from "./../../../../utils/date";
 import { capitalize } from "../../../../utils/string";
 
-function Conversation({ convo }) {
+function Conversation({ convo, socket }) {
   const dispatch = useDispatch();
 
   const { activeConversation } = useSelector((state) => state.chat);
@@ -20,6 +27,7 @@ function Conversation({ convo }) {
 
   const openConversation = async () => {
     let newConvo = await dispatch(open_create_conversation(values));
+    socket.emit("join conversation", newConvo.payload._id);
   };
 
   return (
@@ -40,7 +48,7 @@ function Conversation({ convo }) {
             className={`relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden `}
           >
             <img
-              src={convo.picture}
+              src={getConversationPicture(user, convo.users)}
               alt="picture"
               className="w-full h-full object-cover "
             />
@@ -49,7 +57,7 @@ function Conversation({ convo }) {
           <div className="w-full flex flex-col">
             {/*Conversation name*/}
             <h1 className="font-bold flex items-center gap-x-2">
-              {capitalize(convo.name)}
+              {capitalize(getConversationName(user, convo.users))}
             </h1>
             {/* Conversation message */}
             <div>
@@ -80,4 +88,10 @@ function Conversation({ convo }) {
   );
 }
 
-export default Conversation;
+const ConversationWithContext = (props) => (
+  <SocketContext.Consumer>
+    {(socket) => <Conversation {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+
+export default ConversationWithContext;
