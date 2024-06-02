@@ -3,10 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { getConversations } from "../features/chatSlice";
 
+import SocketContext from "../context/SocketContext";
+
 import { Sidebar } from "../components/section/sidebar";
 import { ChatContainer, EmptyChatContainer } from "../components/section/chat/";
 
-const Home = () => {
+const Home = ({ socket }) => {
+  console.log(socket);
+
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
@@ -32,4 +36,9 @@ const Home = () => {
   );
 };
 
-export default Home;
+const HomeWithSocket = (props) => (
+  <SocketContext.Consumer>
+    {(socket) => <Home {...props} socket={socket} />}
+  </SocketContext.Consumer>
+);
+export default HomeWithSocket;
