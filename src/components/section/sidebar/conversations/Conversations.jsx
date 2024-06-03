@@ -4,7 +4,7 @@ import { checkOnlineStatus, getConversationId } from "../../../../utils/chat";
 
 import Conversation from "./Conversation";
 
-export default function Conversations({ onlineUsers }) {
+export default function Conversations({ onlineUsers, typing }) {
   const { conversations, activeConversation } = useSelector(
     (state) => state.chat
   );
@@ -28,6 +28,7 @@ export default function Conversations({ onlineUsers }) {
                   key={convo._id}
                   convo={convo}
                   online={!convo.isGroup && check ? true : false}
+                  typing={typing}
                 />
               );
             })}
