@@ -12,7 +12,7 @@ import {
 import { dateHandler } from "./../../../../utils/date";
 import { capitalize } from "../../../../utils/string";
 
-function Conversation({ convo, socket }) {
+function Conversation({ convo, socket, online }) {
   const dispatch = useDispatch();
 
   const { activeConversation } = useSelector((state) => state.chat);
@@ -45,7 +45,9 @@ function Conversation({ convo, socket }) {
         <div className="flex items-center gap-x-3">
           {/*Conversation user picture*/}
           <div
-            className={`relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden `}
+            className={`relative min-w-[50px] max-w-[50px] h-[50px] rounded-full overflow-hidden ${
+              online ? "online" : ""
+            }`}
           >
             <img
               src={getConversationPicture(user, convo.users)}

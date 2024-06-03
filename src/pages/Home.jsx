@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -16,9 +16,15 @@ const Home = ({ socket }) => {
   const { user } = useSelector((state) => state.user);
   const { activeConversation } = useSelector((state) => state.chat);
 
+  const [onlineUsers, setOnlineUsers] = useState([]);
+
   //join user into the socket io
   useEffect(() => {
     socket.emit("join", user._id);
+    //get online users
+    socket.on("get-online-users", (users) => {
+      setOnlineUsers(users);
+    });
   }, [user]);
 
   //get Conversations
@@ -41,8 +47,12 @@ const Home = ({ socket }) => {
         {/*container*/}
         <div className="container h-screen flex">
           {/*Sidebar*/}
-          <Sidebar />
-          {activeConversation._id ? <ChatContainer /> : <EmptyChatContainer />}
+          <Sidebar onlineUsers={onlineUsers} />
+          {activeConversation._id ? (
+            <ChatContainer onlineUsers={onlineUsers} />
+          ) : (
+            <EmptyChatContainer />
+          )}
         </div>
       </div>
     </>

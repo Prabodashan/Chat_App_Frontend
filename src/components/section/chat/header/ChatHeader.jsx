@@ -6,8 +6,12 @@ import {
   VideoCallIcon,
 } from "../../../../svg";
 import { capitalize } from "./../../../../utils/string";
+import {
+  getConversationName,
+  getConversationPicture,
+} from "./../../../../utils/chat";
 
-function ChatHeader() {
+function ChatHeader({ online }) {
   const { activeConversation } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.user);
 
@@ -20,7 +24,11 @@ function ChatHeader() {
           {/*Conversation image*/}
           <button className="btn">
             <img
-              src={activeConversation.picture}
+              src={
+                activeConversation.isGroup
+                  ? activeConversation.picture
+                  : getConversationPicture(user, activeConversation.users)
+              }
               alt=""
               className="w-full h-full rounded-full object-cover"
             />
@@ -28,9 +36,15 @@ function ChatHeader() {
           {/*Conversation name and online status*/}
           <div className="flex flex-col">
             <h1 className="dark:text-white text-md font-bold">
-              {capitalize(activeConversation.name)}
+              {activeConversation.isGroup
+                ? activeConversation.name
+                : capitalize(
+                    getConversationName(user, activeConversation.users)
+                  )}
             </h1>
-            <span className="text-xs dark:text-dark_svg_2">online</span>
+            <span className="text-xs dark:text-dark_svg_2">
+              {online ? "online" : ""}
+            </span>
           </div>
         </div>
         {/*Right*/}

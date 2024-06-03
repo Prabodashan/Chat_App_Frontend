@@ -1,8 +1,10 @@
 import { useSelector } from "react-redux";
 
+import { checkOnlineStatus, getConversationId } from "../../../../utils/chat";
+
 import Conversation from "./Conversation";
 
-export default function Conversations() {
+export default function Conversations({ onlineUsers }) {
   const { conversations, activeConversation } = useSelector(
     (state) => state.chat
   );
@@ -20,7 +22,14 @@ export default function Conversations() {
                 c.isGroup == true
             )
             .map((convo) => {
-              return <Conversation key={convo._id} convo={convo} />;
+              let check = checkOnlineStatus(onlineUsers, user, convo.users);
+              return (
+                <Conversation
+                  key={convo._id}
+                  convo={convo}
+                  online={!convo.isGroup && check ? true : false}
+                />
+              );
             })}
       </ul>
     </div>
