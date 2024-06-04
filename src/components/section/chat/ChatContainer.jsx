@@ -5,13 +5,14 @@ import { getConversationMessages } from "../../../features/chatSlice";
 
 import { checkOnlineStatus, getConversationId } from "../../../utils/chat";
 
-import ChatHeader from "./header/ChatHeader";
+import FilesPreview from "./preview/files/FilesPreview";
 import ChatMessages from "./messages/ChatMessages";
+import ChatHeader from "./header/ChatHeader";
 import { ChatActions } from "./actions";
 
 export default function ChatContainer({ onlineUsers, typing }) {
   const dispatch = useDispatch();
-  const { activeConversation } = useSelector((state) => state.chat);
+  const { activeConversation, files } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.user);
   const { token } = user;
   const values = {
@@ -35,10 +36,16 @@ export default function ChatContainer({ onlineUsers, typing }) {
               : checkOnlineStatus(onlineUsers, user, activeConversation.users)
           }
         />
-
-        <ChatMessages typing={typing} />
-
-        <ChatActions />
+        {files.length > 0 ? (
+          <FilesPreview />
+        ) : (
+          <>
+            {/*Chat messages*/}
+            <ChatMessages typing={typing} />
+            {/* Chat Actions */}
+            <ChatActions />
+          </>
+        )}
       </div>
     </div>
   );
