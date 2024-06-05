@@ -27,6 +27,10 @@ import MuteIcon from "./Mute";
 import NoVideoIcon from "./NoVideo";
 import TraingleIcon from "./triangle";
 import ValidIcon from "./Valid";
+import AddContactIcon from "./AddConntact";
+import SpeakerIcon from "./Speaker";
+import VideoDialIcon from "./VideoDial";
+import DialIcon from "./Dial";
 export {
   CommunityIcon,
   StoryIcon,
@@ -57,4 +61,8 @@ export {
   NoVideoIcon,
   TraingleIcon,
   ValidIcon,
+  AddContactIcon,
+  SpeakerIcon,
+  VideoDialIcon,
+  DialIcon,
 };

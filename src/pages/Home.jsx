@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import {
@@ -14,7 +14,7 @@ import Call from "../components/section/call/Call";
 
 const callData = {
   socketId: "",
-  receiveingCall: true,
+  receiveingCall: false,
   callEnded: false,
   name: "",
   picture: "",
@@ -32,9 +32,14 @@ const Home = ({ socket }) => {
   const [typing, setTyping] = useState(false);
   //call
   const [call, setCall] = useState(callData);
+  const [stream, setstream] = useState();
   const { receiveingCall } = call;
   const [callAccepted, setCallAccepted] = useState(false);
   const [totalSecInCall, setTotalSecInCall] = useState(0);
+
+  const myVideo = useRef();
+  const userVideo = useRef();
+  const connectionRef = useRef();
 
   //join user into the socket io
   useEffect(() => {
@@ -77,7 +82,16 @@ const Home = ({ socket }) => {
         </div>
       </div>
       {/*Call*/}
-      <Call call={call} setCall={setCall} callAccepted={callAccepted} />
+      <Call
+        call={call}
+        setCall={setCall}
+        callAccepted={callAccepted}
+        myVideo={myVideo}
+        userVideo={userVideo}
+        stream={stream}
+        totalSecInCall={totalSecInCall}
+        setTotalSecInCall={setTotalSecInCall}
+      />
     </>
   );
 };
