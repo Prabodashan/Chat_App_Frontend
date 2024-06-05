@@ -8,8 +8,18 @@ import {
 
 import SocketContext from "../context/SocketContext";
 
-import { Sidebar } from "../components/section/sidebar";
 import { ChatContainer, EmptyChatContainer } from "../components/section/chat/";
+import { Sidebar } from "../components/section/sidebar";
+import Call from "../components/section/call/Call";
+
+const callData = {
+  socketId: "",
+  receiveingCall: true,
+  callEnded: false,
+  name: "",
+  picture: "",
+  signal: "",
+};
 
 const Home = ({ socket }) => {
   const dispatch = useDispatch();
@@ -20,6 +30,11 @@ const Home = ({ socket }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   //typing
   const [typing, setTyping] = useState(false);
+  //call
+  const [call, setCall] = useState(callData);
+  const { receiveingCall } = call;
+  const [callAccepted, setCallAccepted] = useState(false);
+  const [totalSecInCall, setTotalSecInCall] = useState(0);
 
   //join user into the socket io
   useEffect(() => {
@@ -61,6 +76,8 @@ const Home = ({ socket }) => {
           )}
         </div>
       </div>
+      {/*Call*/}
+      <Call call={call} setCall={setCall} callAccepted={callAccepted} />
     </>
   );
 };
