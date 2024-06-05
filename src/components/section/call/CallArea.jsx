@@ -1,4 +1,5 @@
 import { capitalize } from "../../../utils/string";
+import CallTimes from "./CallTimes";
 
 export default function CallArea({
   name,
@@ -18,6 +19,11 @@ export default function CallArea({
           {totalSecInCall === 0 ? (
             <span className="text-dark_text_1">Ringing...</span>
           ) : null}
+          <CallTimes
+            totalSecInCall={totalSecInCall}
+            setTotalSecInCall={setTotalSecInCall}
+            callAccepted={callAccepted}
+          />
         </div>
       </div>
     </div>

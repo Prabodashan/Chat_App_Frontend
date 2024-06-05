@@ -11,7 +11,7 @@ import {
   getConversationPicture,
 } from "./../../../../utils/chat";
 
-function ChatHeader({ online }) {
+function ChatHeader({ online, callUser }) {
   const { activeConversation } = useSelector((state) => state.chat);
   const { user } = useSelector((state) => state.user);
 
@@ -49,15 +49,17 @@ function ChatHeader({ online }) {
         </div>
         {/*Right*/}
         <ul className="flex items-center gap-x-2.5">
-          {1 == 1 ? (
-            <li>
-              <button className="btn">{/* <VideoCallIcon /> */}</button>
+          {online ? (
+            <li onClick={() => callUser()}>
+              <button className="btn">
+                <VideoCallIcon />
+              </button>
             </li>
           ) : null}
-          {1 == 1 ? (
+          {online ? (
             <li>
               <button className="btn">
-                <CallIcon />
+                <CallIcon className="dark:fill-dark_svg_1" />
               </button>
             </li>
           ) : null}

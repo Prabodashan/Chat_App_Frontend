@@ -6,7 +6,7 @@ import {
   VideoDialIcon,
 } from "../../../svg";
 
-export default function CallAcions() {
+export default function CallAcions({ endCall }) {
   return (
     <div className="h-22 w-full absolute bottom-0 z-40">
       {/*Container*/}
@@ -32,7 +32,7 @@ export default function CallAcions() {
               <MuteIcon className="fill-white w-5" />
             </button>
           </li>
-          <li>
+          <li onClick={() => endCall()}>
             <button className="btn_secondary bg-red-600 rotate-[135deg]">
               <DialIcon className="fill-white w-6" />
             </button>

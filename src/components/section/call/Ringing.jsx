@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { CloseIcon, ValidIcon } from "../../../svg";
 
-export default function Ringing({ call, setCall }) {
+export default function Ringing({ call, setCall, answerCall, endCall }) {
   const { receiveingCall, callEnded } = call;
   const [timer, setTimer] = useState(0);
 
@@ -30,25 +30,25 @@ export default function Ringing({ call, setCall }) {
         {/*Call infos*/}
         <div className="flex items-center gap-x-2">
           <img
-            src="https://res.cloudinary.com/adsmanager/image/upload/v1716966253/dbxgwcqbenrmzkqxl87w.png"
+            src={call.picture}
             alt={`caller profile picture`}
             className="w-28 h-28 rounded-full"
           />
           <div>
             <h1 className="dark:text-white">
-              <b>name</b>
+              <b>{call.name}</b>
             </h1>
             <span className="dark:text-dark_text_2">Whatsapp video...</span>
           </div>
         </div>
         {/*Call actions*/}
         <ul className="flex items-center gap-x-2">
-          <li>
+          <li onClick={endCall}>
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-red-500">
               <CloseIcon className="fill-white w-5" />
             </button>
           </li>
-          <li>
+          <li onClick={answerCall}>
             <button className="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500">
               <ValidIcon className="fill-white w-6 mt-2" />
             </button>
